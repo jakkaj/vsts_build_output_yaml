@@ -31,10 +31,12 @@ var yamlwriter = function (file, dryrun, optionsstring, savejson) {
             var splitItem = splitEquals[0].split('.');
            
             var base = doc;
+            let propertyPath = 'doc';
 
             for (let pathItem of splitItem) {
                 
                 pathItem = pathItem.trim();
+                propertyPath += "['" + pathItem + "']";
                 
                 if (pathItem == splitItem[splitItem.length - 1]) {
                     break;
@@ -42,12 +44,11 @@ var yamlwriter = function (file, dryrun, optionsstring, savejson) {
 
                 let item = base[pathItem];
                 if (!item) {
-
                     base[pathItem] = {};
                 }
                 base = base[pathItem];
             }
-            var lProc = "doc." + item;
+            var lProc = propertyPath + "=" + splitEquals[1];
             eval(lProc);
         }
 
